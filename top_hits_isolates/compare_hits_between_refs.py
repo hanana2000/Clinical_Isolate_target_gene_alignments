@@ -122,7 +122,7 @@ def cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_fol
             if not dfunsure.empty:
                 pd.concat([unsure_df, dfunsure])
                 summary.write(f"Unsure: {prefix}\n") 
-                summary.write(f"\t\t{dfunsure.to_string(index=False, header=False)}\n") 
+                summary.write(f"{dfunsure.to_string(index=False, header=False)}\n\n") 
     isolates_list = list(set(isolates_list))
     with open(summary_path, "r+") as summary: 
         original_content = summary.read()  # Read the entire content

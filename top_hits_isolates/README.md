@@ -8,9 +8,32 @@ requires:
 Logic Diagram: 
 ![gene search pipline diagram](https://github.com/hanana2000/Clinical_Isolate_target_gene_alignments/blob/f0dfb14a9100767b402b663f975e6a75a8342d3a/PA_Isolate_target_proteins.jpg)
 
-## Test Data
+## 🧫 Test Data
 
+To test the scripts, test data is provided. 
+download "fake_target_genesPAO1", "fake_target_genesPA14", "fake_isolate_proteins_GCA" and "fake_isolate_proteins_GCF". 
 
+To test GCA data, run: 
+
+```bash 
+python3 find_top_hits_GCA.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCA --output_folder fake_isolate_tophits
+
+python3 find_top_hits_GCA.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCA --output_folder fake_isolate_tophits
+
+python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/GCA/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/GCA/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_CGA
+
+```
+
+To test the GCF data, run: 
+
+```bash
+python3 find_top_hits.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
+
+python3 find_top_hits.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
+
+python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/GCF/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/GCF/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_GCF
+
+```
 
 
 ## 🔍 find_top_hits.py or find_top_hits_GCA
