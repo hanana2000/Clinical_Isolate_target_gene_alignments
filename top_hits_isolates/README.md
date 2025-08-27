@@ -198,3 +198,9 @@ The top_five folder contains the top five hits for each target protein
 The top_hits folder contains the top hit for each protein if the bitscore threshhold was surpassed. if not, then it contains an "ambiguous" folder with the top two hits for that protein. It does not contain any empty files. 
 
 The top_hits_consistent folder contains a winners and ambiguous file for each isolate, regardless of if the file is empty or not. Each file will only include one hit for each protein (ambiguous or not). 
+
+If you chose to blastp against another set of target proteins, another folder (e.g. PAO1_target_genes) will be generated with the same subdirs under the GCA folder. 
+
+If you use find_top_hits.py the main folder will be named GCF instead of GCA. 
+
+
