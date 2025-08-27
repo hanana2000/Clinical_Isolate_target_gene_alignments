@@ -208,6 +208,6 @@ If you chose to blastp against another set of target proteins, another folder (e
 If you use find_top_hits.py the main folder will be named GCF instead of GCA. 
 
 
-## compare_hits_between_refs.py
+## ⚖️ compare_hits_between_refs.py
 
 If you have decided to run the isolates against two sets of target genes, then you can use the compare_hits_between_refs.py script to compare the top hits between either, and determine the top hit using the logic outlined in the repo diagram.  
