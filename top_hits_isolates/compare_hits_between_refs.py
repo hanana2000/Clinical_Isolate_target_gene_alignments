@@ -11,6 +11,9 @@ import pandas as pd
 
 def compare_hits(target_genes1, target_genes2, path_tophits1, path_tophits2, output_folder): 
     os.makedirs(output_folder, exist_ok=True)
+    summary_path = os.path.join(output_folder, "summary.txt")
+    os.makedirs(summary_path, exist_ok=True)
+
 
     accession_lib = defaultdict(str)
 
@@ -314,7 +317,7 @@ def populate_accessions(file1_path, file2_path, accession_lib):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="use DIAMOND to find top hit proteins for each target gene from reference genomes")
+    parser = argparse.ArgumentParser(description="compare data from top hit proteins for each target gene from two reference genomes")
 
     parser.add_argument("--target_genes1", required=True, help="Path to the folder with subdirectories containing .faa files with first set of reference target genes.")
     parser.add_argument("--target_genes2", required=True, help="Path to the folder with subdirectories containing .faa files with second set of reference target genes. must be in SAME ORDER as first set.")
