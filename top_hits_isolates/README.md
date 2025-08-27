@@ -1,15 +1,19 @@
-# Finding top hits for each target using diamond Blastp
+# 🧬 Finding top hits for each target using diamond Blastp
 
 requires: 
 - DIAMOND 
 - biopython 
 - pandas
 
-## find_top_hits.py or find_top_hits_GCA.
+Logic Diagram: 
+![gene search pipline diagram](https://github.com/hanana2000/Clinical_Isolate_target_gene_alignments/blob/f0dfb14a9100767b402b663f975e6a75a8342d3a/PA_Isolate_target_proteins.jpg)
+
+
+## 🔍 find_top_hits.py or find_top_hits_GCA
 
 First, either find_top_hits.py or find_top_hits_GCA.py must be run on the isolate/ target protein data. 
 
-### Usage of find_top_hits.py or find_top_hits_GCA.py
+### 🧪 Usage of find_top_hits.py or find_top_hits_GCA.py
 
 The find_top_hits.py file and find_top_hits_GCA.py file will both give the same output. they both find the top 5 hits, and from this the top hits (using logic outlined in diagram found in this repo based on bitscore), including top hit ambiguity. 
 
@@ -120,7 +124,7 @@ options:
 
 ```
 
-### Output of find_top_hits.py and find_top_hits_GCA.py
+### 📊 Output of find_top_hits.py and find_top_hits_GCA.py
 
 The output will be stored in the output folder specified. It will either be stored in a GCF subdir (find_top_hits.py) or a GCF subdir (find_top_hits_GCA.py). 
 
@@ -204,3 +208,6 @@ If you chose to blastp against another set of target proteins, another folder (e
 If you use find_top_hits.py the main folder will be named GCF instead of GCA. 
 
 
+## compare_hits_between_refs.py
+
+If you have decided to run the isolates against two sets of target genes, then you can use the compare_hits_between_refs.py script to compare the top hits between either, and determine the top hit using the logic outlined in the repo diagram.  
