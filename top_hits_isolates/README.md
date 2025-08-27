@@ -42,7 +42,7 @@ First, either find_top_hits.py or find_top_hits_GCA.py must be run on the isolat
 
 ### 🧪 Usage of find_top_hits.py or find_top_hits_GCA.py
 
-The find_top_hits.py file and find_top_hits_GCA.py file will both give the same output. they both find the top 5 hits, and from this the top hits (using logic outlined in diagram found in this repo based on bitscore), including top hit ambiguity. 
+The find_top_hits.py file and find_top_hits_GCA.py file will both give the same output. They both find the top 5 hits, and from this the top hits (using logic outlined in diagram found in this repo based on bitscore), including top hit ambiguity. 
 
 the only difference in these files is the required input format. 
 

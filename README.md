@@ -11,6 +11,6 @@ This diagram depicts the logic for determining top hits for each target protein 
 ## 🏆 top_hits_isolates folder 
 
 - find_top_hits[_GCA].py: 
-    - The find_top_hits.py file and find_top_hits_GCA.py file will both give the same output. they both find the top 5 hits, and from this the top hits (using logic outlined in diagram found in this repo based on bitscore), including top hit ambiguity. 
+    - The find_top_hits.py file and find_top_hits_GCA.py file will both give the same output. They both find the top 5 hits, and from this the top hits (using logic outlined in diagram found in this repo based on bitscore), including top hit ambiguity. 
 - compare_hits_between_refs.py: 
     - If you have decided to run the isolates against two sets of target genes, then you can use the compare_hits_between_refs.py script to compare the top hits between either, and determine the top hit using the logic outlined in the repo diagram.  
