@@ -117,12 +117,9 @@ def get_top_hit(diamond_hits, output_folder):
         top2 = df.groupby("qseqid", as_index=False).nth(1).reset_index(drop=True)
         # rename cols to avoid collision
         top2 = top2.rename(columns={c: f"{c}_2" for c in top2.columns if c != "qseqid"})
-        # # top2 bitscore per query (may be missing)
-        # top2 = df.groupby("qseqid", as_index=False).nth(1)[["qseqid","bitscore"]]
-        # top2 = top2.rename(columns={"bitscore":"bitscore2"})
 
-        print(top1.head())
-        print(top2.head())
+        # print(top1.head())
+        # print(top2.head())
 
         # merge side-by-side to compute Δbits
         top = top1.merge(top2, on="qseqid", how="left")
@@ -141,7 +138,6 @@ def get_top_hit(diamond_hits, output_folder):
         if not winners.empty: 
             winners.to_csv(out_winners, sep="\t", index=False, columns=cols_win)
         winners.to_csv(out_winners_consistent, sep="\t", index=False, columns=cols_win)
-
 
         ### Ambiguous: stack top1 and top2 into rows
     
