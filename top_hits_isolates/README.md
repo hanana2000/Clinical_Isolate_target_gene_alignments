@@ -288,7 +288,8 @@ The output will have the file structure below:
     ├── porin_RXTE01P.1.fsa_aa.gz.canonical_crosscheck.tsv
     ├── porin_RXTE01P.1.fsa_aa.gz.unsure_crosscheck.tsv
     ├── porin_RXTF01P.1.fsa_aa.gz.canonical_crosscheck.tsv
-    └── porin_RXTF01P.1.fsa_aa.gz.unsure_crosscheck.tsv
+    ├── porin_RXTF01P.1.fsa_aa.gz.unsure_crosscheck.tsv
+    └── summary.txt
 
 ```
 
@@ -315,6 +316,24 @@ PAO1 qseqid will have the id of the protein in the first reference genome.
 The PA14 qseqid will have the id of the protein in the second reference genome. 
 The PAO1 sseqid	PA14 sseqid will have the id of the protein in the isolate itself based on the first reference genome hit and the second reference genome hit (in case they did not match).
 The "hit_type" will have whether it was a WIN or AMBIG in each reference genome, and whether it was NOT IN one or the other. 
+
+The summary.txt file will have the following info: 
+
+```bash
+number of isolates: 39
+number of unsure hits: 32
+efflux genes: 10
+pili genes: 6
+porin genes: 1
+
+Unsure: pili_RXTH01P.1.fsa_aa.gz.
+		WKE25143.1 ABJ13792.1 RTS18461.1 RTS16263.1 WIN PAO1, WIN PA14
+Unsure: pili_RXTU01P.1.fsa_aa.gz.
+		WKE25143.1 ABJ13792.1 RTS87398.1 RTS87646.1 WIN PAO1, WIN PA14
+Unsure: pili_RXUB01.1.fsa_aa.gz.
+		WKE25143.1 ABJ13792.1 RTT37168.1 RTT34533.1 WIN PAO1, WIN PA14
+
+```
 
 # 🙋‍♀️ Author/ 📬 Contact
 

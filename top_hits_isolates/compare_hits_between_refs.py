@@ -11,11 +11,12 @@ import pandas as pd
 
 def compare_hits(target_genes1, target_genes2, path_tophits1, path_tophits2, output_folder): 
     os.makedirs(output_folder, exist_ok=True)
-    summary_path = os.path.join(output_folder, "summary.txt")
-    os.makedirs(summary_path, exist_ok=True)
-
+    
+    summary_path = os.path.abspath(os.path.join(output_folder, "summary.txt"))
+    print(f"[summary path] {summary_path}")
 
     accession_lib = defaultdict(str)
+    categories = defaultdict(int)
 
     # iterate through all folders in the first provided target gene directory
     # and check that the same target folders/files exist in the second target gene dir 
@@ -54,7 +55,7 @@ def compare_hits(target_genes1, target_genes2, path_tophits1, path_tophits2, out
             file1_path = os.path.join(target_folder_path1, file1)
             file2_path = os.path.join(target_folder_path2, file1)
             
-            accession_lib = populate_accessions(file1_path, file2_path, accession_lib)
+            accession_lib, categories = populate_accessions(file1_path, file2_path, accession_lib, categories, target_folder1)
 
         print("#@" * 35 + "\n")
 
@@ -63,12 +64,17 @@ def compare_hits(target_genes1, target_genes2, path_tophits1, path_tophits2, out
             print(f"ID1 -> {id1}, ID2 -> {id2}")
     print("\n" + "#@" * 35 + "\n")
 
+    with open(summary_path, "w") as summary: 
+        for category in categories: 
+            summary.write(f"{category} genes: {categories[category]}\n") 
+        summary.write(f"\n") 
+
     # Now check that for winners, the top hits are the same, and output them in a single file
     print(f"Now crosschecking top hit files {path_tophits1} and {path_tophits2}\n")
-    cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_folder)
+    cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_folder, categories, summary_path)
 
 
-def cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_folder):
+def cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_folder, categories, summary_path):
     if not os.path.exists(path_tophits1) or not os.path.exists(path_tophits2): 
         print(f"One of the top hits dirs does not exist\n")
         return
@@ -89,8 +95,13 @@ def cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_fol
     # if the hit is a winner for both 
     # or if the hit is a winner for one but ambiguous for another, 
     # check if the top hits match and if they do then accept as canonical 
+    isolates_list = []
+    unsure_cols = ["PAO1 qseqid", "PA14 qseqid", "PAO1 sseqid", "PA14 sseqid", "hit_type"]
+    unsure_df = pd.DataFrame(columns = unsure_cols)
+
     for prefix in prefix_list:
         # iterate through one isolate at a time 
+        isolates_list = append_isolate_list(prefix, categories, isolates_list)
         winner_path1, winner_path2 = f"{path_hits1}/{prefix}winners.tsv", f"{path_hits2}/{prefix}winners.tsv"
         ambig_path1, ambig_path2 = f"{path_hits1}/{prefix}ambiguous.tsv", f"{path_hits2}/{prefix}ambiguous.tsv"
         if not os.path.exists(winner_path1) and not os.path.exists(winner_path2):
@@ -104,7 +115,27 @@ def cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_fol
         dfsure, dfunsure = check_for_matches(winPAO1, winPA14, ambPAO1, ambPA14, accession_lib, prefix)
         dfsure.to_csv(f"{output_folder}/{prefix}canonical_crosscheck.tsv", sep="\t", index=False)
         dfunsure.to_csv(f"{output_folder}/{prefix}unsure_crosscheck.tsv", sep="\t", index=False)
+        if not dfunsure.empty: unsure_df = pd.concat([unsure_df, dfunsure])
         print("\n" +"*" * 50 + "\n")
+        # write to the summary file with the unsure contents for this isolate
+        with open(summary_path, "a") as summary: 
+            if not dfunsure.empty:
+                pd.concat([unsure_df, dfunsure])
+                summary.write(f"Unsure: {prefix}\n") 
+                summary.write(f"\t\t{dfunsure.to_string(index=False, header=False)}\n") 
+    isolates_list = list(set(isolates_list))
+    with open(summary_path, "r+") as summary: 
+        original_content = summary.read()  # Read the entire content
+        summary.seek(0, 0)                  # Move cursor to the beginning
+        summary.write(f"number of isolates: {len(isolates_list)}\n" + f"number of unsure hits: {len(unsure_df)}\n" + original_content)
+
+
+def append_isolate_list(prefix, categories, isolates_list): 
+    isolate_name = prefix
+    for cat, key in categories.items(): 
+        isolate_name = isolate_name.replace(str(cat), "")
+    isolates_list.append(isolate_name)
+    return isolates_list
 
 
 
@@ -297,11 +328,12 @@ def load_top_hits(filepath):
     return hits
 
 
-def populate_accessions(file1_path, file2_path, accession_lib): 
+def populate_accessions(file1_path, file2_path, accession_lib, categories, target_folder1): 
     # read faa files from both directories 
     # and link record IDs by order (first one in file 1 linked with first in file 2)
     list1 = []
     list2 = []
+    num_category = 0
     print(f"Now populating {file1_path} to {file2_path}")
     for record in SeqIO.parse(file1_path, "fasta"):
         list1.append(record.id)
@@ -312,8 +344,11 @@ def populate_accessions(file1_path, file2_path, accession_lib):
     # link record IDs by order
     for id1, id2 in zip(list1, list2):
         accession_lib[id1] = (id2)
+        num_category += 1
 
-    return accession_lib
+    categories[target_folder1] = num_category
+
+    return accession_lib, categories
 
 
 if __name__ == "__main__":
