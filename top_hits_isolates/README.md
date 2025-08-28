@@ -340,21 +340,29 @@ The PA14 qseqid will have the id of the protein in the second reference genome.
 The PAO1 sseqid	PA14 sseqid will have the id of the protein in the isolate itself based on the first reference genome hit and the second reference genome hit (in case they did not match).
 The "hit_type" will have whether it was a WIN or AMBIG in each reference genome, and whether it was NOT IN one or the other. 
 
-The summary.txt file will have the following info: 
+The summary.txt file will contain info about the number of each type of gene, number of isolates tested, number of unsure protein hits, and number of missing hits (not found in the isolate for either set of target genes). For example: 
 
 ```bash
-number of isolates: 39
-number of unsure hits: 32
 efflux genes: 10
 pili genes: 6
 porin genes: 1
+number of isolates: 39
+number of unsure hits: 17
 
-Unsure: pili_RXTH01P.1.fsa_aa.gz.
-		WKE25143.1 ABJ13792.1 RTS18461.1 RTS16263.1 WIN PAO1, WIN PA14
-Unsure: pili_RXTU01P.1.fsa_aa.gz.
-		WKE25143.1 ABJ13792.1 RTS87398.1 RTS87646.1 WIN PAO1, WIN PA14
-Unsure: pili_RXUB01.1.fsa_aa.gz.
-		WKE25143.1 ABJ13792.1 RTT37168.1 RTT34533.1 WIN PAO1, WIN PA14
+efflux_RXWN01P.1.fsa_aa.gz. is missing 1 genes
+porin_RXTE01P.1.fsa_aa.gz. is missing 1 genes
+porin_RXTF01P.1.fsa_aa.gz. is missing 1 genes
+porin_RXTH01P.1.fsa_aa.gz. is missing 1 genes
+porin_RXTQ01P.1.fsa_aa.gz. is missing 1 genes
+
+Unsure: porin_RXTE01P.1.fsa_aa.gz.
+CAA78448.1, UXO62020.1, RTR86907.1, AMBIG PAO1, AMBIG PA14
+Unsure: porin_RXTF01P.1.fsa_aa.gz.
+CAA78448.1, UXO62020.1, RTR82200.1, AMBIG PAO1, AMBIG PA14
+Unsure: porin_RXTH01P.1.fsa_aa.gz.
+CAA78448.1, UXO62020.1, RTS25620.1, AMBIG PAO1, AMBIG PA14
+Unsure: porin_RXTQ01P.1.fsa_aa.gz.
+CAA78448.1, UXO62020.1, RTS78609.1, AMBIG PAO1, AMBIG PA14
 
 ```
 
