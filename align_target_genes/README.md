@@ -1,15 +1,36 @@
 # 🧬 Aligning two sets of target genes 
 
-requires: 
-- MAFFT 
-- Bio AlignIO
+Aligns matched sets of target genes from two reference genomes and summarizes per-pair differences.
+
+### Why this exists
+
+Given two matched target lists (e.g., P. aeruginosa PAO1 vs PA14), this tool:
+
+1. builds pairwise MAFFT alignments (CLUSTAL format) per gene,
+2. concatenates category-level alignments, and
+3. outputs a concise per-pair summary of differences.
+
+### Requirements
+
+- Python ≥ 3.9
+- MAFFT ≥ 7.5 (CLI on PATH)
+- Biopython ≥ 1.8 (for Bio.AlignIO/Bio.SeqIO)
+
+Install (example):
+
+```bash 
+# macOS (brew) or Linux (conda)
+brew install mafft     # or: conda install -c bioconda mafft
+python -m pip install biopython
+
+```
 
 ## 🧫 Test Data
 
 To test the script, test data is provided. 
 download "fake_target_genesPAO1" and "fake_target_genesPA14". 
 
-To test toy data, run: 
+Quick start: 
 
 ```bash 
 python3 mafft_target_genes.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --output_folder fake_results
@@ -72,14 +93,14 @@ Toy data output:
         ├── fake_attack_genes_combined.fasta
         ├── fake_attack_genes_gene_1.fasta
         ├── fake_attack_genes_gene_2.fasta
-        ├── fake_attack_genes_gene_3.fasta
+        ├── ...
         ├── summary_fake_attack_genes.txt
     └── 📁fake_colorful_genes
         ├── 📁temp
         ├── fake_colorful_genes_combined.fasta
         ├── fake_colorful_genes_gene_1.fasta
         ├── fake_colorful_genes_gene_2.fasta
-        ├── fake_colorful_genes_gene_3.fasta
+        ├── ...
         ├── summary_fake_colorful_genes.txt
     └── 📁fake_defense_genes
         ├── 📁temp
@@ -87,10 +108,7 @@ Toy data output:
         ├── fake_defense_genes_gene_1.fasta
         ├── fake_defense_genes_gene_2.fasta
         ├── fake_defense_genes_gene_3.fasta
-        ├── fake_defense_genes_gene_4.fasta
-        ├── fake_defense_genes_gene_5.fasta
-        ├── fake_defense_genes_gene_6.fasta
-        ├── fake_defense_genes_gene_7.fasta
+        ├── ...
         └── summary_fake_defense_genes.txt
 
 ```
@@ -152,7 +170,10 @@ BLUE123         CSWLNPALWEKKLLHIAF
 
 ```
 
-The summary is calculated using the BLOSUM substitution matrix. 
+Similarity rule source: CLUSTAL similarity groups (not BLOSUM).
+Strong groups: STA, NEQK, NHQK, NDEQ, QHRK, MILV, MILF, HY, FYW
+Weak groups: CSA, ATV, SAG, STNK, STPA, SGND, SNDEQK, NDEQHK, NEQHRK, FVLIM, HFY
+
 Note: 
 
 - gaps_seq1 / gaps_seq2: number of "-" characters in each aligned sequence (PAO1, PA14)
@@ -161,6 +182,7 @@ Note:
 - Total individual aa differences:  conservative_subs + weak_subs + complete_mismatches + gaps in either sequence. This is individual amino acid differences, so it excludes indels (running gap count) 
 - indel_count: number of gap runs (e.g. "---" counts as one event instead of 3)
 
+Ambiguous residues policy: X/B/Z/J equal pairs (e.g., X==X) count as identity; non-equal pairs (e.g., B vs D) are treated as mismatches; they are not counted toward : or ..
 
 Example summary file: 
 
@@ -190,6 +212,14 @@ indel_count: 4
 identical_matches: 499
 
 ```
+
+## Cite / Acknowledge
+
+Please cite:
+
+- Katoh & Standley (2013), MAFFT multiple sequence alignment software v7
+- Thompson et al. (1994), CLUSTAL W/X (for similarity groups)
+
 
 # 🙋‍♀️ Author/ 📬 Contact
 
