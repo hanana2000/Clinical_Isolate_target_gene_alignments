@@ -49,7 +49,7 @@ def get_top_hits(target_genes, isolates_path, output_folder):
             # iterate through categories of target genes
             for file in os.listdir(folder_path): 
                 if file.endswith(".faa"): 
-                    command = ["diamond", "blastp", "-d", database_path, "-q", f"{folder_path}/{file}", "-o", f"{top_five_folder}{target_folder}_{iso_file}.tsv", "--query-cover", "70", "--subject-cover", "70", "--max-target-seqs", "5", "--outfmt", "6", "qseqid", "sseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore", "qlen", "slen"]
+                    command = ["diamond", "blastp", "-d", database_path, "-q", f"{folder_path}/{file}", "-o", f"{top_five_folder}{target_folder}_{iso_file}.tsv", "-e", "1e-10", "--query-cover", "70", "--subject-cover", "70", "--max-target-seqs", "5", "--outfmt", "6", "qseqid", "sseqid", "pident", "length", "mismatch", "gapopen", "qstart", "qend", "sstart", "send", "evalue", "bitscore", "qlen", "slen"]
                     print("\n>>", " ".join(command), "\n")
                     try: 
                         subprocess.run(command, check=True)

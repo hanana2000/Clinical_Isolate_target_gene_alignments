@@ -64,10 +64,8 @@ def compare_hits(target_genes1, target_genes2, path_tophits1, path_tophits2, out
             print(f"ID1 -> {id1}, ID2 -> {id2}")
     print("\n" + "#@" * 35 + "\n")
 
-    with open(summary_path, "w") as summary: 
-        for category in categories: 
-            summary.write(f"{category} genes: {categories[category]}\n") 
-        summary.write(f"\n") 
+    with open(summary_path, "w") as summary:
+        summary.write("")
 
     # Now check that for winners, the top hits are the same, and output them in a single file
     print(f"Now crosschecking top hit files {path_tophits1} and {path_tophits2}\n")
@@ -98,6 +96,7 @@ def cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_fol
     isolates_list = []
     unsure_cols = ["PAO1 qseqid", "PA14 qseqid", "PAO1 sseqid", "PA14 sseqid", "hit_type"]
     unsure_df = pd.DataFrame(columns = unsure_cols)
+    summary_lib, summary_missings = defaultdict(pd.DataFrame), []
 
     for prefix in prefix_list:
         # iterate through one isolate at a time 
@@ -117,17 +116,32 @@ def cross_check_top_hits(accession_lib, path_tophits1, path_tophits2, output_fol
         dfunsure.to_csv(f"{output_folder}/{prefix}unsure_crosscheck.tsv", sep="\t", index=False)
         if not dfunsure.empty: unsure_df = pd.concat([unsure_df, dfunsure])
         print("\n" +"*" * 50 + "\n")
-        # write to the summary file with the unsure contents for this isolate
-        with open(summary_path, "a") as summary: 
-            if not dfunsure.empty:
-                pd.concat([unsure_df, dfunsure])
-                summary.write(f"Unsure: {prefix}\n") 
-                summary.write(f"{dfunsure.to_string(index=False, header=False)}\n\n") 
-    isolates_list = list(set(isolates_list))
+        # fill the summary file libs with the unsure contents for this isolate
+        for cat, key in categories.items(): 
+            if prefix.startswith(cat):
+                if len(dfsure) != key: 
+                    summary_missings.append(f"{prefix} is missing {key-len(dfsure)} genes\n")
+        if not dfunsure.empty:
+            summary_lib[f"Unsure: {prefix}\n"] = dfunsure             
+        isolates_list = list(set(isolates_list))
+    # write the summary.txt file 
+    write_summary_txt(summary_path, categories, isolates_list, summary_missings, summary_lib, unsure_df) 
+
+
+
+def write_summary_txt(summary_path, categories, isolates_list, summary_missings, summary_lib, unsure_df): 
     with open(summary_path, "r+") as summary: 
-        original_content = summary.read()  # Read the entire content
-        summary.seek(0, 0)                  # Move cursor to the beginning
-        summary.write(f"number of isolates: {len(isolates_list)}\n" + f"number of unsure hits: {len(unsure_df)}\n" + original_content)
+        for category in categories: 
+            summary.write(f"{category} genes: {categories[category]}\n") 
+        summary.write(f"number of isolates: {len(isolates_list)}\n" + f"number of unsure hits: {len(unsure_df)}\n\n")
+        for line in summary_missings: 
+            summary.write(line)
+        summary.write("\n")
+        for line, ids in summary_lib.items():
+            summary.write(line)
+            for index, row in ids.iterrows():
+                summary.write(f"{row[0]}, {row[1]}, {row[2]}, {row[4]}\n")
+
 
 
 def append_isolate_list(prefix, categories, isolates_list): 
