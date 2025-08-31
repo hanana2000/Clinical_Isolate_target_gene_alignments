@@ -98,7 +98,7 @@ Toy data output:
 The alignments are made by MAFFT CLUSTAL align. 
 Note: 
 
-- '*' = identical residues
+- \* = identical residues
 - : = conserved substitution (strong similarity group)
 - . = semi-conserved substitution (weak similarity group)
 - [space] = no similarity symbol at that amino acid (non-similar or a gap)
