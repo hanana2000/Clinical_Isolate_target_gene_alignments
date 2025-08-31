@@ -29,7 +29,7 @@ To test the GCF data, run:
 ```bash
 python3 find_top_hits.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
 
-python3 find_top_hits.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
+python3 find_top_hits.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
 
 python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/GCF/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/GCF/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_GCF
 
@@ -80,7 +80,7 @@ The find_top_hits_GCA.py script can take GCA (or GCF) .fsa_aa.gz files that migh
 
 You want to pass the find_top_hits_GCA.py script the /isolate_proteins_GCA folder. 
 
-both folders expect the target genes to be formated in subdirectories representing categories of genes. For example: 
+Both folders expect the target genes to be formated in subdirectories representing categories of genes. For example: 
 
 ```bash
 └── 📁PAO1_target_genes
