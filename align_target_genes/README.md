@@ -1,6 +1,6 @@
 # 🧬 Aligning two sets of target genes 
 
-Aligns matched sets of target genes from two reference genomes and summarizes per-pair differences.
+Aligns matched sets of target genes from two reference genomes and summarizes per-pair differences. The number of target genes per reference genome must be the same. 
 
 ### Why this exists
 

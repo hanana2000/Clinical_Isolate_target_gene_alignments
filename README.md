@@ -17,4 +17,6 @@ This diagram depicts the logic for determining top hits for each target protein 
         - If you have decided to run the isolates against two sets of target genes, then you can use the compare_hits_between_refs.py script to compare the top hits between either, and determine the top hit using the logic outlined in the repo diagram.  
 - align_target_genes folder 
     - mafft_target_genes.py:
-        - This script will align two sets of target genes from different reference genomes. The number of target genes per ref genome must be the same.
+        - Aligns matched sets of target genes from two reference genomes and summarizes per-pair differences.
+
+
