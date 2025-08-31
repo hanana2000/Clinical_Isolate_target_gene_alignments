@@ -97,13 +97,12 @@ Toy data output:
 
 The alignments are made by MAFFT CLUSTAL align. 
 Note: 
-```bash
-    * = identical residues
-    : = conserved substitution (strong similarity group)
-    . = semi-conserved substitution (weak similarity group)
-    [space] = no similarity symbol at that amino acid (non-similar or a gap)
 
-```
+    - * = identical residues
+    - : = conserved substitution (strong similarity group)
+    - . = semi-conserved substitution (weak similarity group)
+    - [space] = no similarity symbol at that amino acid (non-similar or a gap)
+
 
 Example alignment file: 
 
@@ -155,15 +154,13 @@ BLUE123         CSWLNPALWEKKLLHIAF
 
 The summary is calculated using the BLOSUM substitution matrix. 
 Note: 
+ 
+    - gaps_seq1 / gaps_seq2: number of "-" characters in each aligned sequence (PAO1, PA14)
+    - conservative_subs (:) / weak_subs (.): substitutions with a similar amino acid, or substitution with a weakly similar amino acid 
+    - complete_mismatches: residue–residue pairs with no CLUSTAL symbol (space), meaning complete amino acid mismatch excluding gaps
+    - Total individual aa differences:  conservative_subs + weak_subs + complete_mismatches + gaps in either sequence. This is individual amino acid differences, so it excludes indels (running gap count) 
+    - indel_count: number of gap runs (e.g. "---" counts as one event instead of 3)
 
-```bash 
-    gaps_seq1 / gaps_seq2: number of "-" characters in each aligned sequence (PAO1, PA14)
-    conservative_subs (:) / weak_subs (.): substitutions with a similar amino acid, or substitution with a weakly similar amino acid 
-    complete_mismatches: residue–residue pairs with no CLUSTAL symbol (space), meaning complete amino acid mismatch excluding gaps
-    Total individual aa differences:  conservative_subs + weak_subs + complete_mismatches + gaps in either sequence. This is individual amino acid differences, so it excludes indels (running gap count) 
-    indel_count: number of gap runs (e.g. "---" counts as one event instead of 3)
-
-```
 
 Example summary file: 
 
