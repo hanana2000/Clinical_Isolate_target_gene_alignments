@@ -90,24 +90,24 @@ Toy data output:
 └── 📁fake_results
     └── 📁fake_attack_genes
         ├── 📁temp
-        ├── fake_attack_genes_combined.fasta
-        ├── fake_attack_genes_gene_1.fasta
-        ├── fake_attack_genes_gene_2.fasta
+        ├── fake_attack_genes_combined.txt
+        ├── fake_attack_genes_gene_1.aln
+        ├── fake_attack_genes_gene_2.aln
         ├── ...
         ├── summary_fake_attack_genes.txt
     └── 📁fake_colorful_genes
         ├── 📁temp
-        ├── fake_colorful_genes_combined.fasta
-        ├── fake_colorful_genes_gene_1.fasta
-        ├── fake_colorful_genes_gene_2.fasta
+        ├── fake_colorful_genes_combined.txt
+        ├── fake_colorful_genes_gene_1.aln 
+        ├── fake_colorful_genes_gene_2.aln 
         ├── ...
         ├── summary_fake_colorful_genes.txt
     └── 📁fake_defense_genes
         ├── 📁temp
-        ├── fake_defense_genes_combined.fasta
-        ├── fake_defense_genes_gene_1.fasta
-        ├── fake_defense_genes_gene_2.fasta
-        ├── fake_defense_genes_gene_3.fasta
+        ├── fake_defense_genes_combined.txt
+        ├── fake_defense_genes_gene_1.aln
+        ├── fake_defense_genes_gene_2.aln
+        ├── fake_defense_genes_gene_3.aln
         ├── ...
         └── summary_fake_defense_genes.txt
 
@@ -181,35 +181,52 @@ Note:
 - complete_mismatches: residue–residue pairs with no CLUSTAL symbol (space), meaning complete amino acid mismatch excluding gaps
 - Total individual aa differences:  conservative_subs + weak_subs + complete_mismatches + gaps in either sequence. This is individual amino acid differences, so it excludes indels (running gap count) 
 - indel_count: number of gap runs (e.g. "---" counts as one event instead of 3)
+- identical_matches: matching residues excluding gaps 
+- %_identity: matching residues / total alignment length
+- alignment_length: length of alignment
+- coverage_seq1: (length of alignment - gaps in seq1) / length of alignment
+- coverage_seq2: (length of alignment - gaps in seq2) / length of alignment
 
 Ambiguous residues policy: X/B/Z/J equal pairs (e.g., X==X) count as identity; non-equal pairs (e.g., B vs D) are treated as mismatches; they are not counted toward : or ..
 
 Example summary file: 
 
 ```bash 
-fake_colorful_genes summary: 
+fake_attack_genes summary: 
 
-id1: RED456
-id2: RED123
-gaps_seq1: 26
-gaps_seq2: 26
-conservative_subs: 39
-weak_subs: 18
-complete_mismatches: 72
-TOTAL_individual_aa_diffs: 181
-indel_count: 12
-identical_matches: 745
+desc_PAO1: POW456 attack sequence 1 consisting of 1000 residues.
+desc_PA14: POW123 attack sequence 1 consisting of 1000 residues.
+id1: POW456
+id2: POW123
+gaps_seq1: 0
+gaps_seq2: 0
+conservative_subs: 0
+weak_subs: 0
+complete_mismatches: 0
+TOTAL_individual_aa_diffs: 0
+indel_count: 0
+identical_matches: 1000
+%_identity: 100.0
+alignment_length: 1000
+coverage_seq1: 1.0
+coverage_seq2: 1.0
 
-id1: BLUE456
-id2: BLUE123
-gaps_seq1: 8
-gaps_seq2: 8
-conservative_subs: 7
-weak_subs: 7
-complete_mismatches: 29
-TOTAL_individual_aa_diffs: 59
-indel_count: 4
-identical_matches: 499
+desc_PAO1: BAM456 attack sequence 2 consisting of 1500 residues.
+desc_PA14: BAM123 attack sequence 2 consisting of 1500 residues.
+id1: BAM456
+id2: BAM123
+gaps_seq1: 45
+gaps_seq2: 45
+conservative_subs: 40
+weak_subs: 30
+complete_mismatches: 85
+TOTAL_individual_aa_diffs: 245
+indel_count: 15
+identical_matches: 1300
+%_identity: 84.14239482200647
+alignment_length: 1545
+coverage_seq1: 0.970873786407767
+coverage_seq2: 0.970873786407767
 
 ```
 

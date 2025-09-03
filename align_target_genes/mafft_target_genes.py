@@ -75,7 +75,7 @@ def align_output(current_file1, current_file2, tmp_folder_path, output_gene_fold
     align the two current sequences and output the results to a clustal alignment fasta
     
     """
-    combined_file_path = os.path.join(output_gene_folder, f"{dir1}_combined.fasta")
+    combined_file_path = os.path.join(output_gene_folder, f"{dir1}_combined.txt")
     with open(combined_file_path, "w") as combined: combined.write("")
     records1 = list(SeqIO.parse(current_file1, "fasta"))
     records2 = list(SeqIO.parse(current_file2, "fasta"))
@@ -86,10 +86,10 @@ def align_output(current_file1, current_file2, tmp_folder_path, output_gene_fold
         with open(temp_file_path, "w") as f:
             SeqIO.write([rec1, rec2], f, "fasta")
         # mafft align the current sequence from the temp file 
-        current_output_file = f"{output_gene_folder}/{dir1}_gene_{i}.fasta"
+        current_output_file = f"{output_gene_folder}/{dir1}_gene_{i}.aln"
         subprocess.run(["mafft", "--clustalout", "--auto", temp_file_path], stdout=open(current_output_file, "w"))
         # update to a summary file:
-        diffs = get_diffs(current_output_file)
+        diffs = get_diffs(current_output_file, rec1.description, rec2.description)
         with open(f"{output_gene_folder}/summary_{dir1}.txt", "a") as summary: 
             for key in diffs: 
                 summary.write(f"{key}: {diffs[key]}\n")
@@ -111,7 +111,7 @@ def combine_alignments(current_output_file, combined_file_path):
             combined.write(text)
 
 
-def get_diffs(aln_file):
+def get_diffs(aln_file, desc1, desc2):
     """
     get differences between the sequences with helper functions
     
@@ -125,11 +125,11 @@ def get_diffs(aln_file):
     if len(s1) != len(s2): 
         raise ValueError("ALIGNMENTS DIFF LENGTHS\n")
     # iterate through each pair of aas in the sequences
-    summary_lib =  check_pair_aa(s1, s2, id1, id2)
+    summary_lib =  check_pair_aa(s1, s2, id1, id2, desc1, desc2)
     return summary_lib
     
 
-def check_pair_aa(s1, s2, id1, id2):
+def check_pair_aa(s1, s2, id1, id2, desc1, desc2):
     """
     count number of gaps, conserved substitutions, weak substitutions, 
     identical aa's, complete mismatches, and unknown residues there are in
@@ -166,6 +166,7 @@ def check_pair_aa(s1, s2, id1, id2):
         indel_count += 1
 
     return {
+        "desc_PAO1": desc1, "desc_PA14": desc2, 
         "id1": id1, "id2": id2, 
         "gaps_seq1": gaps1, "gaps_seq2": gaps2,
         "conservative_subs": cons_sub, 
@@ -174,27 +175,13 @@ def check_pair_aa(s1, s2, id1, id2):
         "TOTAL_individual_aa_diffs": gaps1 + gaps2 + cons_sub + weak_sub + mismatch, 
         # "total_individual_aa_diffs_check": len(s1) - identical, 
         "indel_count": indel_count,
-        "identical_matches": identical
+        "identical_matches": identical,
+        "%_identity": identical / len(s1) * 100,
+        "alignment_length": f"{len(s1)}", 
+        "coverage_seq1": (len(s1) - gaps1) / len(s1),
+        "coverage_seq2":  (len(s2) - gaps2) / len(s2)
         # "unknown_residues_seq1": unk_res1, "unknown_residues_seq2": unk_res2
     }
-
-    
-
-    
-def is_conservative(a, b) -> bool:
-    """
-    return True if is a conservative substitution
-    return False if is identical, a gap, or a mismatch
-
-    """
-    if a == b:  # identical isn't "substitution"
-        return False
-    if a in "-X" or b in "-X":  # treat gaps/unknowns as non-conservative
-        return False
-    for grp in AA_GROUPS.values():
-        if a in grp and b in grp:
-            return True
-    return False
 
 
 def check_dir_match(dir1, dir2, current_dir1, current_dir2, current_file1, current_file2, target_genes2): 
