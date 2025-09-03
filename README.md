@@ -19,4 +19,9 @@ This diagram depicts the logic for determining top hits for each target protein 
     - mafft_target_genes.py:
         - Aligns matched sets of target genes from two reference genomes and summarizes per-pair differences.
 
+# 🙋‍♀️ Author/ 📬 Contact
 
+For questions or suggestions, contact: 
+
+Hannah Kapoor
+📧 hannahkapoor00@gmail.com 
