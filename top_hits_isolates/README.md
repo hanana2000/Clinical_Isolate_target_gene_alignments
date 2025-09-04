@@ -111,28 +111,20 @@ you would pass find_top_hits_recurs.py the PAO1_target_genes folder path.
 If you run find_top_hits.py without required arguments you will get this message: 
 
 ```bash
-usage: find_top_hits.py [-h] --target_genes TARGET_GENES
-                        --isolates_path ISOLATES_PATH
-                        --output_folder OUTPUT_FOLDER
+usage: find_top_hits_recurs.py [-h] --target_genes TARGET_GENES --isolates_path ISOLATES_PATH
+                               --output_folder OUTPUT_FOLDER
 
-use DIAMOND to find top hit proteins for each target gene
-from reference genomes
+use DIAMOND to find top hit proteins for each target gene from reference genomes
 
 options:
   -h, --help            show this help message and exit
   --target_genes TARGET_GENES
-                        Path to the folder with
-                        subdirectories containing .faa files
-                        with reference target genes.
+                        Path to the folder with subdirectories containing .faa files with reference target
+                        genes.
   --isolates_path ISOLATES_PATH
-                        Path to NCBI datasets generated
-                        folder, usually called
-                        'ncbi_dataset/data', containing each
-                        clinical isolates subdirectory with
-                        .faa file of all proteins
+                        Path to folder containing .faa file of all proteins
   --output_folder OUTPUT_FOLDER
-                        Path to the output folder where
-                        results will be saved.
+                        Path to the output folder where results will be saved.
 
 ```
 
