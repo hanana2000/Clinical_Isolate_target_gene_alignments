@@ -6,7 +6,7 @@ from pathlib import Path
 from collections import defaultdict
 import re
 import subprocess
-import pandas as pd
+import pandas as pd # type: ignore
 
 
 def compare_hits(target_genes1, target_genes2, path_tophits1, path_tophits2, output_folder): 
@@ -251,22 +251,6 @@ def win_or_ambig(checkqseq, winlib, ambiglib, qseq1, qseq2, canonical, unsure, i
                         "PA14 qseqid": qseq2, 
                         "PAO1 sseqid": ambiglib[checkqseq] if ambiglib[qseq1] else "-",
                         "PA14 sseqid": ambiglib[checkqseq] if ambiglib[qseq2] else "-",
-                        "hit_type": f"AMBIG {in_genome} and NOT IN {not_in_genome}"})
-
-
-def win_or_ambig_PA14(checkqseq, winlib, ambiglib, qseq1, qseq2, canonical, unsure, in_genome, not_in_genome, prefix): 
-    if checkqseq in winlib: 
-        print(f"\t{qseq1} is a winner in {in_genome}!")
-        canonical.append({"PAO1 qseqid": qseq1, 
-                        "PA14 qseqid": qseq2, 
-                        "sseqid": winlib[checkqseq],
-                        "hit_type": f"WIN {in_genome} and NOT IN {not_in_genome}"})
-    if checkqseq in ambiglib: 
-        print(f"Unsure: \n\t{qseq1} -> {ambiglib[checkqseq]}\n")
-        unsure.append({"PAO1 qseqid": qseq1, 
-                        "PA14 qseqid": qseq2, 
-                        "PAO1 sseqid": "-",
-                        "PA14 sseqid": ambiglib[checkqseq],
                         "hit_type": f"AMBIG {in_genome} and NOT IN {not_in_genome}"})
 
 
