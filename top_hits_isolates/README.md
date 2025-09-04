@@ -20,7 +20,7 @@ python3 find_top_hits_recurs.py --target_genes fake_target_genesPAO1 --isolates_
 
 python3 find_top_hits_recurs.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCA --output_folder fake_isolate_tophits
 
-python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/GCA/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/GCA/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_CGA
+python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/results_/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/results_/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_CGA
 
 ```
 
@@ -31,7 +31,7 @@ python3 find_top_hits_recurs.py --target_genes fake_target_genesPAO1 --isolates_
 
 python3 find_top_hits_recurs.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
 
-python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/GCF/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/GCF/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_GCF
+python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/results_data/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/results_data/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_GCF
 
 ```
 
