@@ -1,0 +1,26 @@
+fake_colorful_genes genes: 3
+fake_defense_genes genes: 7
+fake_attack_genes genes: 3
+number of isolates: 2
+number of unsure hits: 9
+
+fake_attack_genes_isolate_12345.fsa_aa.gz. is missing 2 genes
+fake_attack_genes_isolate_56789.fsa_aa.gz. is missing 3 genes
+fake_colorful_genes_isolate_12345.fsa_aa.gz. is missing 3 genes
+fake_colorful_genes_isolate_56789.fsa_aa.gz. is missing 3 genes
+fake_defense_genes_isolate_12345.fsa_aa.gz. is missing 6 genes
+fake_defense_genes_isolate_56789.fsa_aa.gz. is missing 5 genes
+
+Unsure: fake_attack_genes_isolate_12345.fsa_aa.gz.
+BAM456, BAM123, BAMISO2, WIN PAO1, WIN PA14
+SNAP456, SNAP123, SNAPISO1, AMBIG PAO1, AMBIG PA14
+Unsure: fake_colorful_genes_isolate_12345.fsa_aa.gz.
+RED456, RED123, REDISO3, WIN PAO1, WIN PA14
+BLUE456, BLUE123, BLUEISO3, AMBIG PAO1, AMBIG PA14
+GREEN456, GREEN123, GREENISO1, AMBIG PAO1, AMBIG PA14
+Unsure: fake_defense_genes_isolate_12345.fsa_aa.gz.
+CAMO123, CAMO456, CAMOISO1, AMBIG PAO1, AMBIG PA14
+RUN456, RUN123, RUNISO3, AMBIG PAO1, WIN PA14
+Unsure: fake_defense_genes_isolate_56789.fsa_aa.gz.
+SCREE123, SCREE456, SCREEISO2, AMBIG PAO1 and NOT IN PA14
+BIKE123, BIKE456, -, AMBIG PA14 and NOT IN PAO1
