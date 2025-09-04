@@ -16,9 +16,9 @@ download "fake_target_genesPAO1", "fake_target_genesPA14", "fake_isolate_protein
 To test GCA data, run: 
 
 ```bash 
-python3 find_top_hits_GCA.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCA --output_folder fake_isolate_tophits
+python3 find_top_hits_recurs.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCA --output_folder fake_isolate_tophits
 
-python3 find_top_hits_GCA.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCA --output_folder fake_isolate_tophits
+python3 find_top_hits_recurs.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCA --output_folder fake_isolate_tophits
 
 python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/GCA/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/GCA/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_CGA
 
@@ -27,26 +27,22 @@ python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --tar
 To test the GCF data, run: 
 
 ```bash
-python3 find_top_hits.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
+python3 find_top_hits_recurs.py --target_genes fake_target_genesPAO1 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
 
-python3 find_top_hits.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
+python3 find_top_hits_recurs.py --target_genes fake_target_genesPA14 --isolates_path fake_isolate_proteins_GCF/isolates/ncbi_dataset/data/ --output_folder fake_isolate_tophits
 
 python3 compare_hits_between_refs.py --target_genes1 fake_target_genesPAO1 --target_genes2 fake_target_genesPA14 --path_tophits1 fake_isolate_tophits/GCF/fake_target_genesPAO1 --path_tophits2 fake_isolate_tophits/GCF/fake_target_genesPA14 --output_folder fake_tophits_crosscheck_GCF
 
 ```
 
 
-## 🔍 find_top_hits.py or find_top_hits_GCA
+## 🔍 find_top_hits_recurs.py
 
-First, either find_top_hits.py or find_top_hits_GCA.py must be run on the isolate/ target protein data. 
+First, either find_top_hits_recurs.py must be run on the isolate + target protein data. 
 
-### 🧪 Usage of find_top_hits.py or find_top_hits_GCA.py
+### 🧪 Usage of find_top_hits_recurs.py 
 
-The find_top_hits.py file and find_top_hits_GCA.py file will both give the same output. They both find the top 5 hits, and from this the top hits (using logic outlined in diagram found in this repo based on bitscore), including top hit ambiguity. 
-
-the only difference in these files is the required input format. 
-
-The find_top_hits.py file expects data formatted as the NCBI datasets command-line retrieval tool formats it. The datasets tool retreives the GCF data (RefSeq curated), but it should be in the same format (.faa files) as the GCA data. The directory structure is outlined below: 
+The find_top_hits_recurs.py file can take data formatted as the NCBI datasets command-line retrieval tool formats it, or as a flat directory. The datasets tool retreives the GCF data (RefSeq curated) with the directory structure as outlined below: 
 
 ```bash 
 └── 📁isolates
@@ -65,20 +61,34 @@ The find_top_hits.py file expects data formatted as the NCBI datasets command-li
 
 ```
 
-You want to pass the find_top_hits.py script the /ncbi_dataset/data folder. 
+You want to pass the find_top_hits_recurs.py script the /ncbi_dataset/data folder. 
 
-The find_top_hits_GCA.py script can take GCA (or GCF) .fsa_aa.gz files that might have been manually downloaded. it expects data in this stucture: 
+The find_top_hits_recurs.py script can also take GCA (or GCF) .fsa_aa.gz, .fasta, or .faa files that might have been manually downloaded. it expects flat data in this stucture: 
 
 ```bash
-└── 📁isolate_proteins_GCA
+└── 📁isolate_proteins_GCA 
     ├── RXTE01P.1.fsa_aa.gz
     ├── RXTF01P.1.fsa_aa.gz
     ├── RXTH01P.1.fsa_aa.gz
     └── RXTQ01P.1.fsa_aa.gz
+or 
+
+└── 📁isolate_proteins_GCA 
+    ├── RXTE01P.1.faa
+    ├── RXTF01P.1.faa
+    ├── RXTH01P.1.faa
+    └── RXTQ01P.1.faa
+or 
+
+└── 📁isolate_proteins_GCA 
+    ├── RXTE01P.1.fasta
+    ├── RXTF01P.1.fasta
+    ├── RXTH01P.1.fasta
+    └── RXTQ01P.1.fasta
     
 ```
 
-You want to pass the find_top_hits_GCA.py script the /isolate_proteins_GCA folder. 
+You want to pass the find_top_hits_recurs.py script the /isolate_proteins_GCA folder. 
 
 Both folders expect the target genes to be formated in subdirectories representing categories of genes. For example: 
 
@@ -96,7 +106,7 @@ Both folders expect the target genes to be formated in subdirectories representi
 
 ```
 
-you would pass either find_top_hits.py or find_top_hits_GCA.py the PAO1_target_genes folder path. 
+you would pass find_top_hits_recurs.py the PAO1_target_genes folder path. 
 
 If you run find_top_hits.py without required arguments you will get this message: 
 
@@ -126,41 +136,16 @@ options:
 
 ```
 
-If you run find_top_hits_GCA.py without required arguments you will get this message: 
-
-```bash 
-usage: find_top_hits_GCA.py [-h] --target_genes TARGET_GENES
-                            --isolates_path ISOLATES_PATH
-                            --output_folder OUTPUT_FOLDER
-
-use DIAMOND to find top hit proteins for each target gene
-from reference genomes
-
-options:
-  -h, --help            show this help message and exit
-  --target_genes TARGET_GENES
-                        Path to the folder with
-                        subdirectories containing .faa files
-                        with reference target genes.
-  --isolates_path ISOLATES_PATH
-                        Path to folder containing .faa file
-                        of all proteins
-  --output_folder OUTPUT_FOLDER
-                        Path to the output folder where
-                        results will be saved.
-
-```
-
 If output folders specified do not exist, they will be created. 
 
-### 📊 Output of find_top_hits.py and find_top_hits_GCA.py
+### 📊 Output of find_top_hits_recurs.py
 
-The output will be stored in the output folder specified. It will either be stored in a GCF subdir (find_top_hits.py) or a GCF subdir (find_top_hits_GCA.py). 
+The output will be stored in the output folder specified. It will be stored in a subdir with the same dir name at the genome's proteome folder name with "results" appended at the front.  
 
 the subdir will look like this: 
 
 ```bash 
-└── 📁GCA
+└── 📁results_isolate_proteins_GCA
     └── 📁PA14_target_genes
         └── 📁databases_GCA
             ├── RXTE01P.1.fsa_aa.gz_database.dmnd
@@ -224,9 +209,9 @@ the subdir will look like this:
 
 ```
 
-The databases folder contains databases made by diamon to blastp against for all isolates. 
+The databases folder contains databases made by diamond to blastp against for all isolates. 
 
-The top_five folder contains the top five hits for each target protein
+The top_five folder contains the top five hits for each target protein.
 
 The top_hits folder contains the top hit for each protein if the bitscore threshhold was surpassed. if not, then it contains an "ambiguous" folder with the top two hits for that protein. It does not contain any empty files. 
 
@@ -243,12 +228,12 @@ If you have decided to run the isolates against two sets of target genes, then y
 
 ### 🧪 Usage of compare_hits_between_refs.py
 
-This script expects to be passed the same target genes folders as the previous scripts, one for each set of target genes blasted. Keep the order consisent (target_genes1 vs. target_genes2). 
+This script expects to be passed the same target genes folders as the previous script, one for each set of target genes blasted. Keep the order consisent (target_genes1 vs. target_genes2). 
 
-This script also expects to be passed the folders generated by the previous scripts. Within the GCA (or GCF) folder, there will be a subdir for each set of target genes run. For example: 
+This script also expects to be passed the folders generated by the previous script. Within the results_* folder, there will be a subdir for each set of target genes run. For example: 
 
 ```bash 
-└── 📁GCA
+└── 📁results_isolate_proteins_GCA
     └── 📁PA14_target_genes
         └── 📁databases_GCA
         └── 📁top_five
