@@ -378,7 +378,7 @@ def check_dir_match(dir1, dir2, current_dir1, current_dir2, current_file1, curre
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="use DIAMOND to find top hit proteins for each target gene from reference genomes")
+    parser = argparse.ArgumentParser(description="Align isolate top hits from top_hits_isolates/compare_hits_between_refs.py to reference target genes in TWO SETS of target proteins.")
 
     parser.add_argument("--target_genes1", required=True, help="Path to the folder with subdirectories containing .faa files with first set of reference target genes.")
     parser.add_argument("--target_genes2", required=True, help="Path to the folder with subdirectories containing .faa files with second set of reference target genes.")
