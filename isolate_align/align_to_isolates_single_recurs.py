@@ -44,9 +44,11 @@ def align_tophits(target_genes, path_tophits, isolate_proteins, output_folder):
     print("")
 
     print("\n" + "*" * 70)
+    target_genome = os.path.basename(target_genes)
+    print(f"Target genome: {target_genome}")
 
     # iterate through first target gene dirs
-    for dir in os.listdir(target_genes)[2:3]:
+    for dir in os.listdir(target_genes):
         current_dir = os.path.join(target_genes, dir)
         output_gene_folder = os.path.join(output_folder, f"{dir}_alignments")
         tmp_folder_path = os.path.join(output_gene_folder, "temp")
@@ -78,7 +80,7 @@ def align_tophits(target_genes, path_tophits, isolate_proteins, output_folder):
         print("")
 
 
-        category_align(dir, path_tophits, targ_sequences, tmp_folder_path, isolate_proteins, output_gene_folder)
+        category_align(target_genome, dir, path_tophits, targ_sequences, tmp_folder_path, isolate_proteins, output_gene_folder)
         print("\n" + "*" * 70)
 
 
@@ -147,13 +149,13 @@ def get_iso_prots(iso_prots_paths, isolate_id):
     return iso_prots
 
 
-def category_align(dir, path_tophits, targ_sequences, tmp_folder_path, isolate_proteins, output_gene_folder):
+def category_align(target_genome, dir, path_tophits, targ_sequences, tmp_folder_path, isolate_proteins, output_gene_folder):
     cat_summary = f"{output_gene_folder}/{dir}_summary_all.txt"
     with open(cat_summary, "w") as summary: summary.write(f"{dir} summary: \n\n")
     # tsv file per gene category
     root = Path(isolate_proteins)
     iso_prots_paths = get_iso_prots_paths(root) # get all isolate protein paths 
-    gene_tsv =  f"{output_gene_folder}/{dir}_PAO1_all.tsv"
+    gene_tsv =  f"{output_gene_folder}/{dir}_{target_genome}_all.tsv"
     for dir_folder in os.listdir(path_tophits): 
         if dir_folder == "top_hits_consistent":
             for isolate_file in os.listdir(os.path.join(path_tophits, dir_folder)): 
@@ -161,7 +163,7 @@ def category_align(dir, path_tophits, targ_sequences, tmp_folder_path, isolate_p
                 if isolate_file.endswith("winners.tsv") and isolate_file.startswith(dir): 
                     isolate_path = os.path.join(path_tophits, dir_folder, isolate_file)
                     isolate_id = isolate_file.split(".")[0].replace(f"{dir}_","")
-                    current_output_folder = os.path.join(output_gene_folder, f"{isolate_id}_PAO1")
+                    current_output_folder = os.path.join(output_gene_folder, f"{isolate_id}_{target_genome}")
                     os.makedirs(current_output_folder, exist_ok=True)
                     combined_file_path = os.path.join(current_output_folder, f"{dir}_combined.txt")
                     summary = f"{current_output_folder}/summary_{isolate_id}_{dir}.txt"
